@@ -3,9 +3,9 @@
  */
 
 import { render } from "@testing-library/react";
-import TextInput from "./TextInput";
+import CustomInput from "./CustomInput";
 
-describe("TextInput", () => {
+describe("CustomInput", () => {
   let value = "";
   const setValue = (s: string) => {
     value = s;
@@ -16,7 +16,13 @@ describe("TextInput", () => {
   });
   test("Renders correctly", () => {
     const { container } = render(
-      <TextInput name="Input" label="Label" value={value} setValue={setValue} />
+      <CustomInput
+        type="text"
+        name="Input"
+        label="Label"
+        value={value}
+        onChange={setValue}
+      />
     );
 
     expect(container).toBeInTheDocument();
@@ -24,7 +30,13 @@ describe("TextInput", () => {
 
   test("Prints 'label' prop correctly", () => {
     const { container } = render(
-      <TextInput name="Input" label="Label" value={value} setValue={setValue} />
+      <CustomInput
+        type="text"
+        name="Input"
+        label="Label"
+        value={value}
+        onChange={setValue}
+      />
     );
 
     expect(container.getElementsByTagName("label")[0]).toHaveTextContent(
@@ -34,7 +46,13 @@ describe("TextInput", () => {
 
   test("Sets correct id based on 'name' prop", () => {
     const { container } = render(
-      <TextInput name="input" label="Label" value={value} setValue={setValue} />
+      <CustomInput
+        type="text"
+        name="input"
+        label="Label"
+        value={value}
+        onChange={setValue}
+      />
     );
 
     expect(container.querySelector("#input")).toBeDefined();
@@ -42,7 +60,13 @@ describe("TextInput", () => {
 
   test("Gets the focus on render", () => {
     const { container } = render(
-      <TextInput name="input" label="Label" value={value} setValue={setValue} />
+      <CustomInput
+        type="text"
+        name="input"
+        label="Label"
+        value={value}
+        onChange={setValue}
+      />
     );
 
     expect(container.querySelector("#input")).toHaveFocus();
@@ -52,18 +76,25 @@ describe("TextInput", () => {
     value = "Test";
 
     const { container } = render(
-      <TextInput name="input" label="Label" value={value} setValue={setValue} />
+      <CustomInput
+        type="text"
+        name="input"
+        label="Label"
+        value={value}
+        onChange={setValue}
+      />
     );
     expect(container.querySelector("#input")).toHaveAttribute("value", "Test");
   });
 
   test("Has a red focus if 'isError' prop is true", () => {
     const { container } = render(
-      <TextInput
+      <CustomInput
+        type="text"
         name="input"
         label="Label"
         value={value}
-        setValue={setValue}
+        onChange={setValue}
         isError
       />
     );

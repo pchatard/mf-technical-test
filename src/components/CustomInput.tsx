@@ -1,23 +1,31 @@
 import { ChangeEventHandler } from "react";
 
-export type TextInputProps = {
+export type CustomInputProps = {
   name: string;
   label: string;
+  type: "text" | "date";
   value: string;
-  setValue: (s: string) => void;
+  onChange: (s: string) => void;
   isError?: boolean;
 };
 
-function TextInput({ name, label, value, setValue, isError }: TextInputProps) {
+function CustomInput({
+  type,
+  name,
+  label,
+  value,
+  onChange,
+  isError,
+}: CustomInputProps) {
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setValue(e.target.value);
+    onChange(e.target.value);
   };
 
   return (
     <div>
       <label htmlFor={name}>{label}</label>
       <input
-        type="text"
+        type={type}
         id={name}
         value={value}
         onChange={handleChange}
@@ -28,4 +36,4 @@ function TextInput({ name, label, value, setValue, isError }: TextInputProps) {
   );
 }
 
-export default TextInput;
+export default CustomInput;
