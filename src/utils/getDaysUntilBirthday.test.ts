@@ -1,4 +1,7 @@
-import { describe, test, expect } from "vitest";
+/**
+ * @vitest-environment node
+ */
+
 import { getDaysUntilBirthday } from "./getDaysUntilBirthday";
 
 const aprilNineteenth = new Date(2023, 3, 19, 12);
