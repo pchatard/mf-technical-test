@@ -19,7 +19,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: "/mf-technical-test",
+    basename: "/mf-technical-test/",
   }
 );
 

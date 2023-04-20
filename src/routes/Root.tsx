@@ -2,14 +2,31 @@ import { useNavigate } from "react-router-dom";
 import CustomInput from "../components/CustomInput";
 import { useInput } from "../utils/hooks/useInput";
 import { KeyboardEventHandler, useRef, useState } from "react";
+import Button, { ButtonProps } from "../components/Button";
 
 function Root() {
   const navigate = useNavigate();
-  const nextButton = useRef<HTMLButtonElement>(null);
-  const previousButton = useRef<HTMLButtonElement>(null);
-  const inputContainerRef = useRef<HTMLDivElement>(null);
+
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  const previousButtonProps: ButtonProps = {
+    btnRef: useRef<HTMLButtonElement>(null),
+    text: "Précédent",
+    kbd: `${
+      window.navigator.platform.includes("Mac") ? "CMD" : "CTRL"
+    } + Enter`,
+    handleClick: onPreviousStep,
+  };
+  const nextButtonProps: ButtonProps = {
+    btnRef: useRef<HTMLButtonElement>(null),
+    text: "Continuer",
+    kbd: `Enter`,
+    handleClick: onNextStep,
+  };
+
+  const inputContainerRef = useRef<HTMLDivElement>(null);
+
   const inputProps = [
     useInput("text", "Quel est votre prénom ?", "firstName"),
     useInput("text", "Quel est votre nom de famille ?", "lastName"),
@@ -24,12 +41,12 @@ function Root() {
     if (e.key == "Enter" && (e.metaKey || e.ctrlKey)) {
       // Go to Previous step
       e.preventDefault();
-      previousButton.current?.focus();
+      previousButtonProps.btnRef?.current?.focus();
       onPreviousStep();
     } else if (e.key == "Enter") {
       // Go to next step
       e.preventDefault();
-      nextButton.current?.focus();
+      nextButtonProps.btnRef?.current?.focus();
       onNextStep();
     }
   };
@@ -48,7 +65,9 @@ function Root() {
    */
   function fadeOut() {
     const fadeOutAnimation = "animate-[fadeOut_.8s_ease-in-out_forwards]";
-    nextButton.current?.parentElement?.classList.add(fadeOutAnimation);
+    nextButtonProps.btnRef?.current?.parentElement?.classList.add(
+      fadeOutAnimation
+    );
     inputContainerRef.current?.classList.add(fadeOutAnimation);
   }
 
@@ -96,37 +115,24 @@ function Root() {
       onKeyDown={handleKeyDown}
     >
       <div className="w-full px-4 md:px-0 md:w-1/2 flex flex-col justify-center items-center gap-4">
+        {!isLoading && (
+          <div className="animate-[fadeIn_0.8s_ease-in-out_forwards] text-indigo-600 self-start">
+            {step + 1}/3
+          </div>
+        )}
         <CustomInput
-          isLoading={isLoading}
           {...inputProps[step]}
+          isLoading={isLoading}
           containerRef={inputContainerRef}
         />
         {!isLoading && (
-          <div className="flex justify-between w-full">
-            {step > 0 && (
-              <button
-                ref={previousButton}
-                className="animate-[fadeIn_0.8s_ease-in-out_forwards] opacity-0 origin-bottom text-indigo-600 text-base border border-indigo-600 hover:border-indigo-800 focus:border-indigo-800 focus:outline-indigo-800 focus:outline-offset-0 px-4 py-2 rounded-md font-semibold hover:text-indigo-800 flex justify-between items-center"
-                onClick={onPreviousStep}
-              >
-                Previous
-                <kbd className="hidden md:block ml-4 text-xs border border-indigo-600 px-2 py-2 rounded-sm">
-                  {window.navigator.platform.includes("Mac") ? "CMD" : "CTRL"} +
-                  Enter
-                </kbd>
-              </button>
-            )}
-            <button
-              ref={nextButton}
-              type="button"
-              className="ml-auto animate-[fadeIn_1s_ease-in-out_.2s_forwards] opacity-0 origin-bottom text-indigo-600 text-base border border-indigo-600 hover:border-indigo-800 focus:border-indigo-800 focus:outline-indigo-800 focus:outline-offset-0 px-4 py-2 rounded-md font-semibold hover:text-indigo-800 flex justify-between items-center"
-              onClick={onNextStep}
-            >
-              Continuer
-              <kbd className="hidden md:block ml-4 text-xs border border-indigo-600 px-2 py-2 rounded-sm">
-                Enter
-              </kbd>
-            </button>
+          <div
+            className={
+              "flex w-full " + (step > 0 ? "justify-between" : "justify-end")
+            }
+          >
+            {step > 0 && <Button {...previousButtonProps} />}
+            <Button {...nextButtonProps} />
           </div>
         )}
       </div>
