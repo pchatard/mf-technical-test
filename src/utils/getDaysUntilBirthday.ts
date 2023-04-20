@@ -25,7 +25,10 @@ export function getDaysUntilBirthday(
   if (today.getTime() > nextBirthday.getTime()) {
     nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
   }
-
+  nextBirthday.setHours(12);
+  nextBirthday.setMinutes(0);
+  nextBirthday.setSeconds(0);
+  nextBirthday.setMilliseconds(0);
   const nextBirthdayInMilliseconds = nextBirthday.getTime();
 
   return Math.floor(

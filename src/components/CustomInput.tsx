@@ -26,11 +26,7 @@ function CustomInput({
   };
 
   return isLoading ? (
-    <div id="loading" className="flex items-center justify-center space-x-2">
-      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-indigo-600"></div>
-      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-indigo-600"></div>
-      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-indigo-600"></div>
-    </div>
+    <div id="loading"></div>
   ) : (
     <div ref={containerRef} className="flex flex-col w-full gap-2">
       <label
