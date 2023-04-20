@@ -4,9 +4,11 @@
 
 import { render } from "@testing-library/react";
 import CustomInput from "./CustomInput";
+import { RefObject } from "react";
 
 describe("CustomInput", () => {
   let value = "";
+  let containerRef: RefObject<HTMLDivElement>;
   const setValue = (s: string) => {
     value = s;
   };
@@ -20,6 +22,8 @@ describe("CustomInput", () => {
         type="text"
         name="Input"
         label="Label"
+        isLoading={false}
+        containerRef={containerRef}
         value={value}
         onChange={setValue}
       />
@@ -34,6 +38,8 @@ describe("CustomInput", () => {
         type="text"
         name="Input"
         label="Label"
+        isLoading={false}
+        containerRef={containerRef}
         value={value}
         onChange={setValue}
       />
@@ -50,6 +56,8 @@ describe("CustomInput", () => {
         type="text"
         name="input"
         label="Label"
+        isLoading={false}
+        containerRef={containerRef}
         value={value}
         onChange={setValue}
       />
@@ -64,6 +72,8 @@ describe("CustomInput", () => {
         type="text"
         name="input"
         label="Label"
+        isLoading={false}
+        containerRef={containerRef}
         value={value}
         onChange={setValue}
       />
@@ -80,6 +90,8 @@ describe("CustomInput", () => {
         type="text"
         name="input"
         label="Label"
+        isLoading={false}
+        containerRef={containerRef}
         value={value}
         onChange={setValue}
       />
@@ -87,18 +99,37 @@ describe("CustomInput", () => {
     expect(container.querySelector("#input")).toHaveAttribute("value", "Test");
   });
 
-  test("Has a red focus if 'isError' prop is true", () => {
+  test("Has a red bottom border if 'isError' prop is true", () => {
     const { container } = render(
       <CustomInput
         type="text"
         name="input"
         label="Label"
+        isLoading={false}
+        containerRef={containerRef}
         value={value}
         onChange={setValue}
         isError
       />
     );
 
-    expect(container.querySelector("#input")).toHaveClass("border-red-400");
+    expect(container.querySelector("#input")).toHaveClass("border-b-red-600");
+  });
+
+  test("Renders Loader if 'isLoading' prop is true", () => {
+    const { container } = render(
+      <CustomInput
+        type="text"
+        name="input"
+        label="Label"
+        isLoading={true}
+        containerRef={containerRef}
+        value={value}
+        onChange={setValue}
+        isError
+      />
+    );
+
+    expect(container.querySelector("#loading")).toBeInTheDocument();
   });
 });

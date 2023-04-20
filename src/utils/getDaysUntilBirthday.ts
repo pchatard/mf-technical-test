@@ -3,8 +3,10 @@
  * @param birthDate Date of birth
  * @returns The number of days until your next birthday or -1 if you are not born yet.
  */
-export function getDaysUntilBirthday(birthDate: Date) {
-  const today = new Date();
+export function getDaysUntilBirthday(
+  birthDate: Date,
+  today: Date = new Date()
+) {
   today.setHours(12);
   today.setMinutes(0);
   today.setSeconds(0);
