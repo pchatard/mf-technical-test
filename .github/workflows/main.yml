@@ -48,8 +48,27 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+  End_To_End_Tests:
+    name: Run end to end tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+       - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          build: npm run build
+          preview: npm run preview
+
   Deploy:
-    needs: [Build, Unit_Tests]
+    needs: [Build, Unit_Tests, End_To_End_Tests]
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
