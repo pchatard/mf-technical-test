@@ -65,7 +65,9 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           build: npm run build
-          preview: npm run preview
+          start: npm run preview
+          browser: chrome
+          spec: cypress/e2e/*
 
   Deploy:
     needs: [Build, Unit_Tests, End_To_End_Tests]
